@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row">
+        <div class="offset-4 col-4 mt-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="row g-2">
+                                <div class="col-12" *ngFor="let item of listQuestion , let i = index">
+                                    <ng-template [ngIf]="item.type == 'checkbox'">
+                                        <label class="fw-700 form-label"> {{item.name}}
+                                            <span class="text-danger" *ngIf="item.required">*</span>
+                                        </label>
+                                        <ul class="list-group">
+                                            <li class="list-group-item" *ngFor="let items of item.value">
+                                                <input class="form-check-input me-1" type="checkbox" value="items"
+                                                    [(ngModel)]="selectedOptions[items]" (change)="onCheckValue(i)">
+                                                {{items}}
+                                            </li>
+                                            <li class="list-group-item" *ngIf="item.isAllowed">
+                                                <input class="form-check-input me-1" type="checkbox"
+                                                    (change)="onCheckOther($event,i)">
+                                                Other
+                                                <textarea class="form-control mt-2" *ngIf="shows[i]"
+                                                    [(ngModel)]="listOtherAnswer[i]"
+                                                    placeholder="Input other answer...."></textarea>
+                                            </li>
+                                        </ul>
+                                    </ng-template>
+                                    <ng-template [ngIf]="item.type == 'paragraph'">
+                                        <label class="fw-700 form-label"> {{item.name}}
+                                            <span class="text-danger" *ngIf="item.required">*</span>
+                                        </label>
+                                        <textarea class="form-control" placeholder="Input here...."
+                                            [(ngModel)]="listAnswer[i]"></textarea>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <app-modal></app-modal>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12 text-end">
+                                    <button class="btn btn-primary" (click)="saveAnswer()">Review answer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

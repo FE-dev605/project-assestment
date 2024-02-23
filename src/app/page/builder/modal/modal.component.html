@@ -1,0 +1,70 @@
+<button type="button" class="btn btn-sm btn-outline-primary" (click)="open(Modal)">Add Question</button>
+
+<ng-template #Modal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add a new question</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="row mb-2">
+            <div class="col-12">
+                <label for="" class="form-label">Type question</label>
+                <select class="form-select" [(ngModel)]="currentType">
+                    <option value="paragraph">Paragraph</option>
+                    <option value="checkbox">Check Box</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" *ngIf="currentType == 'paragraph'">
+            <div class="col-12">
+                <input type="text" class="form-control" [(ngModel)]="paragraphName" placeholder="Type in question">
+            </div>
+            <div class="col-12 mt-2">
+                <div class="form-check">
+                    <input class="form-check-input" id="paragraphRquired" type="checkbox"
+                        (change)="isRequired($event,'paragraph')">
+                    <label class="form-check-label" for="paragraphRquired">
+                        This field required
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-2" *ngIf="currentType == 'checkbox'">
+            <div class="col-12">
+                <input type="text" class="form-control" [(ngModel)]='checkBoxName' placeholder="Type in question">
+            </div>
+            <div class="col-12" *ngFor="let item of listCheckBox,let i= index, trackBy: trackByFn">
+                <div class="input-group">
+                    <input type="text" class="form-control" [(ngModel)]="listCheckBox[i]" placeholder="Type in answer">
+                    <button type="button" class="input-group-text btn btn-danger"
+                        (click)="removeCheckBox(i)">Remove</button>
+                </div>
+            </div>
+            <div class="col-12">
+                <span class="text-primary " [ngClass]="{'text-secondary': maxCheckBox === 5}">+</span><a
+                    class="link-primary" [ngClass]="{'link-secondary': maxCheckBox === 5}" (click)="addCheckBox()">
+                    Add Answer</a>
+            </div>
+            <div class="col-12 ">
+                <div class="form-check">
+                    <input class="form-check-input" id="isAllow" type="checkbox" (change)="isAllow($event)">
+                    <label class="form-check-label" for="isAllow">
+                        Allow user to specify their own answer
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="checkboxRequired" type="checkbox"
+                        (change)="isRequired($event,'checkbox')">
+                    <label class="form-check-label" for="checkboxRequired">
+                        This field required
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="close()">Save</button>
+    </div>
+</ng-template>
