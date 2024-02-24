@@ -62,10 +62,13 @@ export class BuilderComponent implements OnInit, OnDestroy {
     for (let index = 0; index < this.finalAnswer.length; index++) {
       const element = this.finalAnswer[index];
       if (element.isRequired) {
+        console.log(element.value == '');
+
         if (element.type == 'paragraph' && element.value == '') {
           this.alertError(element.name + ' is required')
           return false
-        } else if (element.type == 'checkbox' && element.value.length == 0) {
+        }
+        if (element.type == 'checkbox' && element.value.length == 0) {
           this.alertError(element.name + ' is required')
           return false
         }
@@ -121,9 +124,11 @@ export class BuilderComponent implements OnInit, OnDestroy {
       }
       return res
     })
-    this._validateAnswer();
-    this.formService.setFinalAnswer(this.finalAnswer);
-    this.router.navigateByUrl('form/answers')
+
+    if (this._validateAnswer()) {
+      this.formService.setFinalAnswer(this.finalAnswer);
+      this.router.navigateByUrl('form/answers')
+    }
 
   }
 
