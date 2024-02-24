@@ -59,6 +59,12 @@ export class BuilderComponent implements OnInit, OnDestroy {
   }
 
   private _validateAnswer(): boolean {
+
+    if (this.finalAnswer.length <= 0) {
+      this.alertError('There are no answer to review')
+      return false;
+    }
+
     for (let index = 0; index < this.finalAnswer.length; index++) {
       const element = this.finalAnswer[index];
       if (element.isRequired) {
@@ -124,7 +130,6 @@ export class BuilderComponent implements OnInit, OnDestroy {
       }
       return res
     })
-
     if (this._validateAnswer()) {
       this.formService.setFinalAnswer(this.finalAnswer);
       this.router.navigateByUrl('form/answers')
